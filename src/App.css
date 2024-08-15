@@ -1,0 +1,113 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+/* styles.css */
+@keyframes shake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+  75% {
+    transform: rotate(20deg);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.5s infinite;
+}
+
+/* styles.css */
+.text-gradient-custom {
+  background: linear-gradient(to right, #10CFA3 0%, #A419CF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+  
+html{
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar{
+  width:10px;
+
+}
+::-webkit-scrollbar-track{
+  background:black;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--famousorange),var(--famouspink), #fff, #FFFF00);
+}
+::-webkit-scrollbar-thumb:hover{
+      background: linear-gradient(135deg, #00FFFF, var(--famousorange),var(--famouspink));
+  
+}
+.questioncontainer{
+  width: 70%;
+  height: auto;
+
+  background-color:rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px) brightness(0.24) contrast(78%) grayscale(7%) hue-rotate(12deg) invert(20%);
+  border-radius: 30px;
+}
+
+.glassybtn{
+  background: rgba( 255, 255, 255, 0.35 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 11.5px );
+-webkit-backdrop-filter: blur( 11.5px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+.glassyprogress{
+  background: rgba( 255, 255, 255, 0 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 9px );
+-webkit-backdrop-filter: blur( 9px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
