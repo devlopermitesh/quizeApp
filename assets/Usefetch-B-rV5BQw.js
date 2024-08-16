@@ -1,1 +1,0 @@
-import{r as e}from"./index-BxBfCryA.js";const h=s=>{const[a,o]=e.useState(null),[n,r]=e.useState(!0),[c,u]=e.useState(null);return e.useEffect(()=>{(async()=>{try{r(!0);const t=await fetch(s);if(!t.ok)throw new Error(`Error: ${t.statusText}`);const f=await t.json();o(f)}catch(t){u(t.message)}finally{r(!1)}})()},[s]),{data:a,loading:n,error:c}};export{h as u};
