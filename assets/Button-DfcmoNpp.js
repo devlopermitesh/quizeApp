@@ -1,1 +1,0 @@
-import{j as n}from"./index-BWAPtRN9.js";const x=({text:t,bgColor:r="#500EC4",activeBgColor:o="#280960",className:e="",...s})=>n.jsx("button",{className:`px-10 py-2 rounded-md border-[1px] bg-[${r}] active:bg-[${o}] ${e} `,...s,children:t});export{x as B};
