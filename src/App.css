@@ -1,8 +1,13 @@
 #root {
+  position: absolute;
+width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  height: 100%;
   padding: 2rem;
   text-align: center;
+  background: linear-gradient(to bottom, #3C049D, #2b046f, #100425);
+  
 }
 
 .logo {

@@ -1,11 +1,21 @@
 import React from 'react'
 import Button from './Button'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { updateLevels } from '../Store/quizslice';
 
 const Results = () => {
   const location=useLocation();
-   const {score}=location.state;
+   const {score,value}=location.state;
+   const dispatch=useDispatch();
 const navigate=useNavigate();
+const calculateStars = (score) => {
+  const stars = Math.min(3, Math.max(0, Math.round(score / 33.33)));
+  return stars;
+};
+
+const stars = calculateStars(score);
+dispatch(updateLevels({value,stars}))
   return (
     <div className='absolute top-0 left-0 h-full w-full bg-gradient-to-b from-[#100425] via-[#2b046f] to-[#3C049D] flex flex-col items-center  space-y-16'>
       <h1 className='text-center text-2xl text-[#00F7E8] font-inknut capitalize'>results</h1>

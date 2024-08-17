@@ -1,10 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Button from './Button';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 const FirstScreen = () => {
   const navigate=useNavigate();
-  const canvasRef = useRef(null);
+  const [isAnimated, setIsAnimated] = useState(false);
 
+  const canvasRef = useRef(null);
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -84,8 +86,20 @@ const FirstScreen = () => {
     };
   }, []);
 
+
+const handelPlay=()=>{
+  setIsAnimated(true);
+  setTimeout(()=>navigate('/levels'),500)
+}
+
+const handelAbout=()=>{
+  setIsAnimated(true);
+  setTimeout(()=>navigate('/about'),500)
+}
+
+
   return (
-    <div className='absolute top-0 left-0 h-full w-full bg-gradient-to-b from-[#3C049D] via-[#2b046f] to-[#100425] flex flex-col justify-center items-center'>
+    <motion.div initial={{x:0}} animate={{x:isAnimated ? -1000 : 0}} transition={{duration:3}} className='absolute top-0 left-0 h-full w-full bg-gradient-to-b from-[#3C049D] via-[#2b046f] to-[#100425] flex flex-col justify-center items-center'>
       <canvas
         ref={canvasRef}
         className='absolute top-0 opacity-80 blur-effect'
@@ -100,12 +114,12 @@ const FirstScreen = () => {
      <b className='text-xl block'>play now and level up</b>
      </span>
 <div className='flex-col flex justify-center items-center gap-y-5'>
-<Button text="Play now" onClick={()=>navigate('/levels')} className='bg-violet-600'/>
-<Button text="About us" onClick={()=>navigate('/about')} className='bg-tr' />
+<Button text="Play now" onClick={handelPlay} className='bg-violet-600'/>
+<Button text="About us" onClick={handelAbout} className='bg-tr' />
      </div>
      
         </div>
-    </div>
+    </motion.div>
   );
 };
 

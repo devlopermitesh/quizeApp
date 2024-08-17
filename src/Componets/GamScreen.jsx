@@ -8,6 +8,9 @@ import Progressbar from './Progressbar';
 import Loadingpage from './Loadingpage';
 import Errorpage from './Errorpage';
 import { isMobile, isTablet, isDesktop } from 'react-device-detect';
+import Settingpage from './Settingpage';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleMusic } from '../Store/quizslice';
 
 const extractKeyTerms = (question) => {
   const doc = nlp(question);
@@ -44,6 +47,32 @@ const fetchUnsplashImage = async (keywords) => {
   return { image, error };
 };
 
+//here is function to remove special code from question and increse more readebility
+function decodeHtmlEntities(str) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
+}
+
+function formatQuestion(question) {
+  // Decode HTML entities manually
+  const decodedQuestion = decodeHtmlEntities(question);
+
+  // Process with compromise
+  const doc = nlp(decodedQuestion);
+
+  // Capitalize the first letter
+  let capitalizedQuestion = doc.text().charAt(0).toUpperCase() + doc.text().slice(1);
+
+  // Ensure it ends with a question mark
+  if (!capitalizedQuestion.endsWith('?')) {
+    capitalizedQuestion += '?';
+  }
+
+  return capitalizedQuestion;
+}
+
+
 const GamScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,12 +82,16 @@ const GamScreen = () => {
   const [fetchError, setFetchError] = useState(null);
   const { stars, value } = location.state || {};
   const [progress, setProgress] = useState(0);
+  const [visibleSetting,setvisibleSetting]=useState(false);
+  const [ismusicplay,setmusicplay]=useState(useSelector((state)=>state.quiz.musicOn));
   const difficulty = stars > 0 && stars < 2 ? 'hard' : 'easy';
+  //for music button and sount button
+  const dispatch=useDispatch();
   const apiUrl = `https://opentdb.com/api.php?amount=10&category=${value}&difficulty=${difficulty}&type=multiple`;
 
   useEffect(() => {
     if (currentQuestionIndex === 9) {
-      navigate('/results', { state: { score: progress } });
+      navigate('/results', { state: { score: progress ,value:value} });
     }
   }, [currentQuestionIndex, progress, navigate]);
 
@@ -127,12 +160,19 @@ const GamScreen = () => {
   if (fetchError || fetchErrorFromHook) return <Errorpage />;
 
   const currentQuiz = quizData[currentQuestionIndex] || {};
-
+const handlemusic=()=>{
+  dispatch(toggleMusic({action:!ismusicplay}))
+  setmusicplay((prev)=>!prev)
+}
+const handelcancel=(newchange)=>{
+  setvisibleSetting(newchange)
+}
   return (
+    <>
     <div className='absolute top-0 left-0 h-full w-full bg-gradient-to-b from-[#3C049D] via-[#2b046f] to-[#100425] flex flex-col items-center'>
-      <header className='w-full h-12 flex'>
-        <GlassyIcons icons={'setting'} className={'float-start ms-6'} />
-        <GlassyIcons icons={'music'} className={'float-start ms-8'} />
+    <header className='w-full h-12 flex'>
+        <GlassyIcons icons={'setting'} className={'float-start ms-6'}  onClick={()=>setvisibleSetting(true)}/>
+        <GlassyIcons icons={(ismusicplay)?'onmusic':"offmusic"} className={'float-start ms-8'} onClick={()=>handlemusic()}/>
         <Progressbar containerclass={'ms-8'} value={progress} />
       </header>
       <div
@@ -142,7 +182,7 @@ const GamScreen = () => {
         }}
       >
         <div className='questioncontainer text-center text-white text-xl overflow-y-clip p-2 py-4 flex items-center'>
-          {currentQuiz.question}
+          {formatQuestion(currentQuiz.question)}
         </div>
       </div>
       <ul className='flex flex-col w-full mt-5 space-y-3'>
@@ -150,13 +190,16 @@ const GamScreen = () => {
           <li key={index}>
             <Button
               text={option}
-              className='mx-12 w-1/2 md:w-1/4 text-white text-2xl hover:bg-violet-700'
+              className='mx-12 w-1/2 md:w-1/4 text-white text-xl md:text-2xl hover:bg-violet-700'
               onClick={() => handleOptionClick(currentQuiz.correctAnswer, option)}
             />
           </li>
         ))}
       </ul>
     </div>
+{   visibleSetting &&
+ <Settingpage  onchange={handelcancel} ismusicplay={ismusicplay} handelmusicChange={handlemusic} ></Settingpage>}
+    </>
   );
 };
 
